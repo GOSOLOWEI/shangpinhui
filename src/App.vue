@@ -1,20 +1,19 @@
 <template>
   <div class="app">
-    <h1 class="title">我是App组件</h1>
+    <Header />
+    <h1>此处会展示很多路由组件，待定</h1>
+    <Footer />
   </div>
 </template>
 
 <script>
+import Header from './components/Header'
+import Footer from './components/Footer'
+
 export default {
   name: 'APP',
+  components: { Header, Footer },
 }
 </script>
 
-<style lang="less">
-.app {
-  background-color: gray;
-  .title {
-    color: orange;
-  }
-}
-</style>
+<style lang="less"></style>
