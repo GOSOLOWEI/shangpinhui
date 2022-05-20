@@ -3,6 +3,7 @@ import App from './App'
 import router from './router'
 import store from './store'
 import TypeNav from './components/TypeNav'
+import './mock'
 
 Vue.config.productionTip = false
 //全局注册TypeNav组件

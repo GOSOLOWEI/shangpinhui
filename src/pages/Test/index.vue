@@ -1,26 +1,20 @@
 <template>
 	<div class="test">
-		<h1>{{name}}</h1>
-		<h2>我是Test路由组件，用于编写一些测试代码，后期项目上线，一定会删掉的</h2>
-		<button @click="handleClick">点我获取三级分类信息</button>
+		<button @click="test">测试获取：楼层、轮播图数据</button>
 	</div>
 </template>
 
 <script>
-	import {reqCategory} from '@/api'
-	import {mapState} from 'vuex'
+	import {reqSlideList,reqFloorList} from '@/api'
 
 	export default {
 		name:'Test',
-		computed:{
-			...mapState({
-				name: state => state.user.name
-			})
-		},
 		methods:{
-			async handleClick(){
-				let result = await reqCategory()
-				console.log(result)
+			async test(){
+				const r1 = await reqSlideList()
+				const r2 = await reqFloorList()
+				console.log(r1)
+				console.log(r2)
 			}
 		}
 	}

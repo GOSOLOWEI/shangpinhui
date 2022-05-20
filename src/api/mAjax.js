@@ -4,7 +4,7 @@
 			2.统一处理所有请求的错误
 			3.返回真正的数据(data)
 			4.配置超时时间
-			备注：该文件的封装，专门用于请求真实服务器，体现在baseURL上
+			备注：该文件的封装，专门用于请求模拟数据，体现在baseURL上
 */
 
 import axios from 'axios'
@@ -13,7 +13,7 @@ import 'nprogress/nprogress.css'
 
 //创建axios实例
 const ajax = axios.create({
-	baseURL:'/api', //请求基本路径
+	baseURL:'http://www.1227.com', //请求基本路径
 	timeout:5000 //超时时间
 })
 
