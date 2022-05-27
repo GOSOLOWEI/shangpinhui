@@ -5,14 +5,13 @@
 		<!-- 轮播图区域 -->
 		<ListContainer/>
 		<!-- 今日推荐 -->
-		<Recommend/>
+		<!-- <Recommend/> -->
 		<!-- 排行 -->
-		<Rank/>
+		<!-- <Rank/> -->
 		<!-- 猜你喜欢 -->
-		<Like/>
+		<!-- <Like/> -->
 		<!-- 楼层 -->
-		<Floor/>
-		<Floor/>
+		<Floor v-for="floor in floorList" :key="floor.id" :floor="floor" />
 		<!-- 商标 -->
 		<Brand/>
 	</div>
@@ -25,9 +24,19 @@
 	import Rank from './Rank'
 	import Floor from './Floor'
 	import Brand from './Brand'
+	import { mapState } from 'vuex'
 
 	export default {
 		name:'Home',
-		components:{ListContainer,Recommend,Rank,Like,Floor,Brand}
+		components:{ListContainer,Recommend,Rank,Like,Floor,Brand},
+		computed:{
+			...mapState({
+				floorList : state => state.home.floorList
+			})
+		},
+		mounted(){
+			// Home组件一挂载就找服务员要：楼层数据
+			this.$store.dispatch('getFloorList')
+		}
 	}
 </script>

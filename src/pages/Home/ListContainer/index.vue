@@ -2,26 +2,18 @@
 	<div class="list-container">
 		<div class="sortList clearfix">
 			<div class="center">
-				<!--banner轮播-->
-				<div class="swiper-container" id="mySwiper">
+				<!--轮播图容器-->
+				<div class="swiper-container" ref="list_swiper">
+					<!-- 承装每一屏 -->
 					<div class="swiper-wrapper">
-						<div class="swiper-slide">
-							<img src="./images/banner1.jpg" />
+						<!-- v-for生成每一屏 -->
+						<div class="swiper-slide" v-for="slide in slideList" :key="slide.id">
+							<img :src="slide.imgUrl">
 						</div>
-						<!-- <div class="swiper-slide">
-							<img src="./images/banner2.jpg" />
-						</div>
-						<div class="swiper-slide">
-							<img src="./images/banner3.jpg" />
-						</div>
-						<div class="swiper-slide">
-							<img src="./images/banner4.jpg" />
-						</div> -->
 					</div>
-					<!-- 如果需要分页器 -->
+					<!-- 小圆点 -->
 					<div class="swiper-pagination"></div>
-
-					<!-- 如果需要导航按钮 -->
+					<!-- 上一张、下一张按钮 -->
 					<div class="swiper-button-prev"></div>
 					<div class="swiper-button-next"></div>
 				</div>
@@ -110,8 +102,55 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
+	// 引入Swiper
+	import Swiper from 'swiper'
+	// 引入Swiper样式
+	import 'swiper/css/swiper.min.css'
+
 	export default {
-		name: 'ListContainer'
+		name: 'ListContainer',
+		data() {
+			return {
+				sum:0
+			}
+		},
+		computed:{
+			...mapState({
+				slideList: state => state.home.slideList
+			})
+		},
+		async mounted(){
+			// console.log('ListContainer组件挂载了')
+			//组件挂载完毕，就去联系对应的action，去获取轮播图数据，随后存入vuex
+			this.$store.dispatch('getSlideList')
+		},
+		watch:{
+			slideList(){
+				this.$nextTick(()=>{
+					new Swiper(this.$refs.list_swiper, {
+						spaceBetween: 30, //每一屏之间的距离
+						speed:1500, //屏的切换速度
+						loop:true, //循环轮播
+						autoplay: { //自动轮播配置
+							delay: 2000, //轮播间隔
+							disableOnInteraction: false, //鼠标操作后，是否禁用自动轮播
+						},
+						pagination: {
+							el: '.swiper-pagination', //小圆点容器
+							clickable: true, //小圆点是否可以点击
+						},
+						navigation: {
+							nextEl: '.swiper-button-next', //下一张按钮的选择器
+							prevEl: '.swiper-button-prev', //上一张按钮的选择器
+						},
+					});
+				})
+			}
+		},
+		updated(){
+			// console.log('ListContainer组件中有数据变化了，它更新了')
+		},
 	}
 </script>
 

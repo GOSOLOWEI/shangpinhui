@@ -64,6 +64,14 @@
 					}
 				})
 			}
+		},
+		mounted(){
+			this.$bus.$on('clear-keyword',()=>{
+				this.keyword = undefined
+			})
+		},
+		beforeDestroy(){
+			this.$bus.$off('clear-keyword')
 		}
 	}
 </script>

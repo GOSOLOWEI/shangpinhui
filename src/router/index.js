@@ -1,11 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//引入路由组件
-import Home from '@/pages/Home'
-import Login from '@/pages/Login'
-import Register from '@/pages/Register'
-import Search from '@/pages/Search'
-import Test from '@/pages/Test'
+import routes from './routes'
 
 Vue.use(VueRouter)
 
@@ -36,39 +31,18 @@ VueRouter.prototype.replace = function(location,okCallback,errCallback){
 //创建路由器
 const router = new VueRouter({
 	mode:'history',
-	routes:[
-		{
-			name:'home',
-			path:'/home',
-			component:Home,
-		},
-		{
-			name:'login',
-			path:'/login',
-			component:Login,
-			meta:{isHiddenFooter:true}
-		},
-		{
-			name:'register',
-			path:'/register',
-			component:Register,
-			meta:{isHiddenFooter:true}
-		},
-		{
-			name:'search',
-			path:'/search',
-			component:Search,
-		},
-		{
-			name:'test',
-			path:'/test',
-			component:Test,
-		},
-		{
-			path:'/',
-			redirect:'/home'
+	routes,
+	//scrollBehavior函数会在:项目一加载执行、以后每次路由跳转时执行
+	scrollBehavior (to, from, savedPosition) {
+		// 严重注意：savedPosition当且仅当我们进行浏览器的前进、后退是才有值
+		if(savedPosition) {
+			//用户绝对是点击了：前进 或 后退按钮，一定是想刚才的东西
+			return savedPosition
+		} else {
+			//正常跳转路由，直接进度条归为
+			return { x: 0, y: 0 }
 		}
-	]
+  }
 })
 
 export default router

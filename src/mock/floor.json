@@ -1,9 +1,18 @@
-[{
+[
+	{
 		"id": "001",
 		"name": "家用电器",
-		"keywords": ["节能补贴", "4K电视", "空气净化器", "IH电饭煲", "滚筒洗衣机", "电热水器"],
+		"keywords": [
+			"节能补贴",
+			"4K电视",
+			"空气净化器",
+			"IH电饭煲",
+			"滚筒洗衣机",
+			"电热水器"
+		],
 		"imgUrl": "/images/floor-1-1.png",
-		"navList": [{
+		"navList": [
+			{
 				"url": "http://www.atguigu.com",
 				"text": "热门"
 			},
@@ -32,7 +41,8 @@
 				"text": "高端电器"
 			}
 		],
-		"carouselList": [{
+		"carouselList": [
+			{
 				"id": "0011",
 				"imgUrl": "/images/floor-1-b01.png"
 			},
@@ -56,9 +66,17 @@
 	{
 		"id": "002",
 		"name": "手机通讯",
-		"keywords": ["高通骁龙", "16核处理器", "超高性价比", "鸿蒙系统", "以旧换新", "免费升级"],
+		"keywords": [
+			"高通骁龙",
+			"16核处理器",
+			"超高性价比",
+			"鸿蒙系统",
+			"以旧换新",
+			"免费升级"
+		],
 		"imgUrl": "/images/1_floor-1-1.png",
-		"navList": [{
+		"navList": [
+			{
 				"url": "http://www.atguigu.com",
 				"text": "安卓机皇"
 			},
@@ -87,7 +105,8 @@
 				"text": "极致奢华"
 			}
 		],
-		"carouselList": [{
+		"carouselList": [
+			{
 				"id": "0011",
 				"imgUrl": "/images/1_floor-1-b01.png"
 			},

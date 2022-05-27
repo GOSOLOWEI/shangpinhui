@@ -2,6 +2,7 @@ import Vue from 'vue'
 import vuex from 'vuex'
 import home from './home'
 import user from './user'
+import search from './search'
 
 //使用插件
 Vue.use(vuex)
@@ -26,7 +27,8 @@ const store = new vuex.Store({
 	getters,
 	modules:{
 		home,
-		user
+		user,
+		search
 	}
 })
 
