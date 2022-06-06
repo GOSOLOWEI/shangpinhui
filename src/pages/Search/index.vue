@@ -72,7 +72,7 @@
 									<div class="p-img">
 										<!-- 商品图片 -->
 										<router-link :to="'/detail/'+good.id">
-											<img :src="good.defaultImg" />
+											<img v-lazy="good.defaultImg" />
 										</router-link>
 									</div>
 									<div class="price">
@@ -286,7 +286,7 @@
 				//页码归位
 				this.searchParams.pageNo = 1
 			}
-		}
+		},
 	}
 </script>
 

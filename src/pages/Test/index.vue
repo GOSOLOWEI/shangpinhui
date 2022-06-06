@@ -1,6 +1,7 @@
 <template>
 	<div class="test">
 		<button @click="test">测试获取：楼层、轮播图数据</button>
+		<input type="checkbox" :checked="x" @click.prevent="demo">
 	</div>
 </template>
 
@@ -9,12 +10,22 @@
 
 	export default {
 		name:'Test',
+		data() {
+			return {
+				x:1
+			}
+		},
 		methods:{
 			async test(){
 				const r1 = await reqSlideList()
 				const r2 = await reqFloorList()
 				console.log(r1)
 				console.log(r2)
+			},
+			demo(){
+				setTimeout(()=>{
+					this.x = (this.x === 1 ? 0 : 1)
+				},3000)
 			}
 		}
 	}

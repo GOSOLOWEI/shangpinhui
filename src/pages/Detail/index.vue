@@ -7,56 +7,31 @@
     <section class="con">
       <!-- 导航路径区域 -->
       <div class="conPoin">
-        <span>手机、数码、通讯</span>
-        <span>手机</span>
-        <span>Apple苹果</span>
-        <span>iphone 6S系类</span>
+        <span v-for="n in 3" :key="n">
+					{{info.categoryView['category' + n + 'Name']}}
+				</span>
       </div>
       <!-- 主要内容区域 -->
       <div class="mainCon">
         <!-- 左侧放大镜区域 -->
         <div class="previewWrap">
           <!--放大镜效果-->
-          <Zoom />
+          <Zoom :imgurl="info.skuInfo.skuDefaultImg"/>
           <!-- 小图列表 -->
-          <ImageList />
+          <ImageList :imgList="info.skuInfo.skuImageList"/>
         </div>
         <!-- 右侧选择区域布局 -->
         <div class="InfoWrap">
           <div class="goodsDetail">
-            <h3 class="InfoName">Apple iPhone 6s（A1700）64G玫瑰金色 移动通信电信4G手机</h3>
-            <p class="news">推荐选择下方[移动优惠购],手机套餐齐搞定,不用换号,每月还有花费返</p>
+            <h3 class="InfoName">{{info.skuInfo.skuName}}</h3>
+            <p class="news">{{info.skuInfo.skuDesc}}</p>
             <div class="priceArea">
               <div class="priceArea1">
                 <div class="title">价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格</div>
                 <div class="price">
                   <i>¥</i>
-                  <em>5299</em>
-                  <span>降价通知</span>
+                  <em>{{info.price}}</em>
                 </div>
-                <div class="remark">
-                  <i>累计评价</i>
-                  <em>65545</em>
-                </div>
-              </div>
-              <div class="priceArea2">
-                <div class="title">
-                  <i>促&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;销</i>
-                </div>
-                <div class="fixWidth">
-                  <i class="red-bg">加价购</i>
-                  <em class="t-gray">满999.00另加20.00元，或满1999.00另加30.00元，或满2999.00另加40.00元，即可在购物车换购热销商品</em>
-                </div>
-              </div>
-            </div>
-            <div class="support">
-              <div class="supportArea">
-                <div class="title">支&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;持</div>
-                <div class="fixWidth">以旧换新，闲置手机回收 4G套餐超值抢 礼品购</div>
-              </div>
-              <div class="supportArea">
-                <div class="title">配 送 至</div>
-                <div class="fixWidth">广东省 深圳市 宝安区</div>
               </div>
             </div>
           </div>
@@ -64,296 +39,55 @@
           <div class="choose">
             <div class="chooseArea">
               <div class="choosed"></div>
-              <dl>
-                <dt class="title">选择颜色</dt>
-                <dd changepirce="0" class="active">金色</dd>
-                <dd changepirce="40">银色</dd>
-                <dd changepirce="90">黑色</dd>
-              </dl>
-              <dl>
-                <dt class="title">内存容量</dt>
-                <dd changepirce="0" class="active">16G</dd>
-                <dd changepirce="300">64G</dd>
-                <dd changepirce="900">128G</dd>
-                <dd changepirce="1300">256G</dd>
-              </dl>
-              <dl>
-                <dt class="title">选择版本</dt>
-                <dd changepirce="0" class="active">公开版</dd>
-                <dd changepirce="-1000">移动版</dd>
-              </dl>
-              <dl>
-                <dt class="title">购买方式</dt>
-                <dd changepirce="0" class="active">官方标配</dd>
-                <dd changepirce="-240">优惠移动版</dd>
-                <dd changepirce="-390">电信优惠版</dd>
+              <dl v-for="s1 in info.spuSaleAttrList" :key="s1.id">
+                <dt class="title">选择{{s1.saleAttrName}}</dt>
+                <dd 
+									changepirce="0" 
+									:class="{active:s2.isChecked === '1' }" 
+									v-for="s2 in  s1.spuSaleAttrValueList"
+									:key="s2.id"
+									@click="changeSpuSaleAttrValue(s1.spuSaleAttrValueList,s2.id)"
+								>
+								{{s2.saleAttrValueName}}</dd>
               </dl>
             </div>
             <div class="cartWrap">
               <div class="controls">
-                <input autocomplete="off" class="itxt">
-                <a href="javascript:" class="plus">+</a>
-                <a href="javascript:" class="mins">-</a>
+                <input autocomplete="off" class="itxt" :value="goodNum" @change="changeGoodNum('input',$event)">
+                <a href="javascript:" class="plus" @click="changeGoodNum('increment')">+</a>
+                <a href="javascript:" class="mins" @click="changeGoodNum('decrement')">-</a>
               </div>
               <div class="add">
-                <a href="javascript:">加入购物车</a>
+                <a @click="handleAddCart">加入购物车</a>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-
-    <!-- 内容详情页 -->
-    <section class="product-detail">
-      <aside class="aside">
-        <div class="tabWraped">
-          <h4 class="active">相关分类</h4>
-          <h4>推荐品牌</h4>
-        </div>
-        <div class="tabContent">
-          <div class="tab-pane active">
-            <ul class="partList">
-              <li>手机</li>
-              <li>手机壳</li>
-              <li>内存卡</li>
-              <li>Iphone配件</li>
-              <li>贴膜</li>
-              <li>手机耳机</li>
-              <li>移动电源</li>
-              <li>平板电脑</li>
-            </ul>
-            <ul class="goodsList">
-              <li>
-                <div class="list-wrap">
-                  <div class="p-img">
-                    <img src="./images/part01.png" />
-                  </div>
-                  <div class="attr">Apple苹果iPhone 6s (A1699) </div>
-                  <div class="price">
-                    <em>¥</em>
-                    <i>6088.00</i>
-                  </div>
-                  <div class="operate">
-                    <a href="javascript:void(0);">加入购物车</a>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="list-wrap">
-                  <div class="p-img">
-                    <img src="./images/part02.png" />
-                  </div>
-                  <div class="attr">
-                    <em>Apple苹果iPhone 6s (A1699)</em>
-                  </div>
-                  <div class="price">
-                    <strong>
-                      <em>¥</em>
-                      <i>6088.00</i>
-                    </strong>
-                  </div>
-                  <div class="operate">
-                    <a href="javascript:void(0);">加入购物车</a>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="list-wrap">
-                  <div class="p-img">
-                    <img src="./images/part03.png" />
-                  </div>
-                  <div class="attr">
-                    <em>Apple苹果iPhone 6s (A1699)</em>
-                  </div>
-                  <div class="price">
-                    <strong>
-                      <em>¥</em>
-                      <i>6088.00</i>
-                    </strong>
-                  </div>
-                  <div class="operate">
-                    <a href="javascript:void(0);">加入购物车</a>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="list-wrap">
-                  <div class="p-img">
-                    <img src="./images/part02.png" />
-                  </div>
-                  <div class="attr">
-                    <em>Apple苹果iPhone 6s (A1699)</em>
-                  </div>
-                  <div class="price">
-                    <strong>
-                      <em>¥</em>
-                      <i>6088.00</i>
-                    </strong>
-                  </div>
-                  <div class="operate">
-                    <a href="javascript:void(0);">加入购物车</a>
-                  </div>
-                </div>
-              </li>
-              <li>
-                <div class="list-wrap">
-                  <div class="p-img">
-                    <img src="./images/part03.png" />
-                  </div>
-                  <div class="attr">
-                    <em>Apple苹果iPhone 6s (A1699)</em>
-                  </div>
-                  <div class="price">
-                    <strong>
-                      <em>¥</em>
-                      <i>6088.00</i>
-                    </strong>
-                  </div>
-                  <div class="operate">
-                    <a href="javascript:void(0);">加入购物车</a>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="tab-pane">
-            <p>推荐品牌</p>
-          </div>
-        </div>
-      </aside>
-      <div class="detail">
-        <div class="fitting">
-          <h4 class="kt">选择搭配</h4>
-          <div class="good-suits">
-            <div class="master">
-              <img src="./images/l-m01.png" />
-              <p>￥5299</p>
-              <i>+</i>
-            </div>
-            <ul class="suits">
-              <li class="suitsItem">
-                <img src="./images/dp01.png" />
-                <p>Feless费勒斯VR</p>
-                <label>
-                  <input type="checkbox" value="39">
-                  <span>39</span>
-                </label>
-              </li>
-              <li class="suitsItem">
-                <img src="./images/dp02.png" />
-                <p>Feless费勒斯VR</p>
-                <label>
-                  <input type="checkbox" value="50">
-                  <span>50</span>
-                </label>
-              </li>
-              <li class="suitsItem">
-                <img src="./images/dp03.png" />
-                <p>Feless费勒斯VR</p>
-                <label>
-                  <input type="checkbox" value="59">
-                  <span>59</span>
-                </label>
-              </li>
-              <li class="suitsItem">
-                <img src="./images/dp04.png" />
-                <p>Feless费勒斯VR</p>
-                <label>
-                  <input type="checkbox" value="99">
-                  <span>99</span>
-                </label>
-              </li>
-            </ul>
-            <div class="result">
-              <div class="num">已选购0件商品</div>
-              <div class="price-tit">
-                套餐价
-              </div>
-              <div class="price">￥5299</div>
-              <button class="addshopcar">加入购物车</button>
-            </div>
-          </div>
-        </div>
-        <div class="intro">
-          <ul class="tab-wraped">
-            <li class="active">
-              <a href="###">
-                商品介绍
-              </a>
-            </li>
-            <li>
-              <a href="###">
-                规格与包装
-              </a>
-            </li>
-            <li>
-              <a href="###">
-                售后保障
-              </a>
-            </li>
-            <li>
-              <a href="###">
-                商品评价
-              </a>
-            </li>
-            <li>
-              <a href="###">
-                手机社区
-              </a>
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div id="one" class="tab-pane active">
-              <ul class="goods-intro">
-                <li>分辨率：1920*1080(FHD)</li>
-                <li>后置摄像头：1200万像素</li>
-                <li>前置摄像头：500万像素</li>
-                <li>核 数：其他</li>
-                <li>频 率：以官网信息为准</li>
-                <li>品牌： Apple</li>
-                <li>商品名称：APPLEiPhone 6s Plus</li>
-                <li>商品编号：1861098</li>
-                <li>商品毛重：0.51kg</li>
-                <li>商品产地：中国大陆</li>
-                <li>热点：指纹识别，Apple Pay，金属机身，拍照神器</li>
-                <li>系统：苹果（IOS）</li>
-                <li>像素：1000-1600万</li>
-                <li>机身内存：64GB</li>
-              </ul>
-              <div class="intro-detail">
-                <img src="./images/intro01.png" />
-                <img src="./images/intro02.png" />
-                <img src="./images/intro03.png" />
-              </div>
-            </div>
-            <div id="two" class="tab-pane">
-              <p>规格与包装</p>
-            </div>
-            <div id="three" class="tab-pane">
-              <p>售后保障</p>
-            </div>
-            <div id="four" class="tab-pane">
-              <p>商品评价</p>
-            </div>
-            <div id="five" class="tab-pane">
-              <p>手机社区</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+</div>
 </template>
 
 <script>
   import ImageList from './ImageList/ImageList'
   import Zoom from './Zoom/Zoom'
-	import {reqGoodDetailInfo} from '@/api'
+	import {reqGoodDetailInfo,reqAddGood2Cart} from '@/api'
+	import {goodNumReg} from '@/utils/reg'
 
   export default {
     name: 'Detail',
     components: {ImageList,Zoom},
+		data() {
+			return {
+				goodNum:1,
+				info:{
+					categoryView:{}, //大图上方的分类路径
+					price:0, //价格
+					skuInfo:{}, //商品详细信息
+					spuSaleAttrList:[] //商品属性列表（颜色、尺寸、重量等等）
+				}
+			}
+		},
 		methods:{
 			// 获取商品详情
 			async getGoodDetailInfo(){
@@ -361,8 +95,93 @@
 				const {id} = this.$route.params
 				// 发请求获取详情
 				let result = await reqGoodDetailInfo(id)
-				// 打印一下
-				console.log(result)
+				// 根据code判断数据是否获取成功
+				if(result.code === 200){
+					// 去除掉不需要的数据
+					delete result.data.valuesSkuJson
+					//存储参数
+					Object.assign(this.info,result.data)
+				}else{
+					alert(result.message)
+				}
+			},
+			// 点击商品属性的回调
+			changeSpuSaleAttrValue(list,id){
+				// 1.拿内存容量举例子，那么就是：取消所有内存选项的高亮，让当前的高亮（排他）
+				list.forEach(item => {
+					if(item.id === id) item.isChecked = '1'
+					else item.isChecked = '0'
+				});
+				// 3.发请求，重新获取最新的详情数据（无法实现，因服务器缺少接口）
+			},
+			//修改商品购买数量的回调
+			changeGoodNum(type,e){
+				// 若是输入的数量
+				if(type === 'input'){
+					// 获取用户的输入
+					const {value} = e.target
+					// 进行正则校验
+					const result = goodNumReg.test(value)
+					//若输入合法，直接将输入存储到goodNum里
+					if(result) this.goodNum = value*1
+					//若输入的值，大于200，则将goodNum的值变为最大的200
+					else if(value > 200) this.goodNum = e.target.value = 200
+					//若输入的是其他值，置为1
+					else this.goodNum = e.target.value = 1
+				}
+				// 若是点击了+
+				else if(type === 'increment'){
+					if(this.goodNum === 200) alert('购买数量不能超过200！')
+					else this.goodNum++
+				}
+				// 若是点击了-
+				else if(type === 'decrement'){
+					if(this.goodNum === 1) alert('购买数量不能小于1！')
+					else this.goodNum--
+				}
+			},
+			// 添加购物车按钮的回调
+			async handleAddCart(){
+				// 获取路由传递过来的商品id
+				const {id} = this.$route.params
+				// 获取组件“辛辛苦苦”维护出来的商品数量
+				const {goodNum} = this
+				// 请求添加购物车
+				const result = await reqAddGood2Cart(id,goodNum)
+				// 判断业务逻辑是否成功
+				if(result.code === 200){
+					//#region 第一步：收集数据
+					//获取商品：名称、默认图片
+					const {skuName,skuDefaultImg} = this.info.skuInfo
+					//获取商品：单价
+					const {price} = this.info
+					//获取商品：数量
+					const {goodNum} = this
+					//获取用户所选择的所有属性（形成一个数组）
+					const arr = []
+					//遍历所有的可选属性，找到用户所选择的，收集到数组中
+					this.info.spuSaleAttrList.forEach((s1)=>{
+						const result = s1.spuSaleAttrValueList.find( s2 => s2.isChecked === '1' )
+						arr.push(result.saleAttrName + '：' +result.saleAttrValueName)
+					})
+					// 准备一个对象，收集到所有接下来要呈现的数据，一会想办法传给addcart_success
+					const selectedGoodInfo = {
+						name:skuName,
+						url:skuDefaultImg,
+						price,
+						goodNum,
+						arr
+					}
+					//#endregion
+
+					//第二步：将selectedGoodInfo存入sessionStorage
+					sessionStorage.setItem('selectedGoodInfo',JSON.stringify(selectedGoodInfo))
+
+					//第三步：跳转到/addcart_success，同时携带要呈现的信息（selectedGoodInfo对象）
+					this.$router.push('/addcart_success')
+				}else{
+					alert(result.message)
+				}
 			}
 		},
 		mounted(){
@@ -527,6 +346,7 @@
                   border-right: 1px solid #bbb;
                   border-bottom: 1px solid #bbb;
                   border-left: 1px solid #eee;
+									cursor: pointer;
 
                   &.active {
                     color: green;
@@ -545,7 +365,7 @@
 
                 .itxt {
                   width: 38px;
-                  height: 37px;
+                  height: 35px;
                   border: 1px solid #ddd;
                   color: #555;
                   float: left;

@@ -5,16 +5,22 @@
 			<div class="container">
 				<div class="loginList">
 					<p>尚品汇欢迎您！</p>
-					<p>
+					<!-- 登录后才能呈现的元素 -->
+					<p v-show="info.id">
+						<span>{{info.nickName}}</span>
+						<a class="register" @click="handleLogout">退出登录</a>
+						<router-link to="/test" class="register">测试</router-link>
+					</p>
+					<!-- 不登录才能呈现的元素 -->
+					<p v-show="!info.id">
 						<span>请</span>
 						<router-link to="/login">登录</router-link>
 						<router-link to="/register" class="register">免费注册</router-link>
-						<router-link to="/test" class="register">测试</router-link>
 					</p>
 				</div>
 				<div class="typeList">
-					<a href="###">我的订单</a>
-					<a href="###">我的购物车</a>
+					<router-link to="/center">我的订单</router-link>
+					<router-link to="/cart">我的购物车</router-link>
 					<a href="###">我的尚品汇</a>
 					<a href="###">尚品汇会员</a>
 					<a href="###">企业采购</a>
@@ -42,12 +48,18 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex'
 	export default {
 		name: 'Header',
 		data() {
 			return {
 				keyword:undefined //用户输入的搜索关键词
 			}
+		},
+		computed:{
+			...mapState({
+				info:state => state.user.info
+			})
 		},
 		methods:{
 			//点击搜索按钮的回调
@@ -63,6 +75,12 @@
 						keyword:this.keyword,
 					}
 				})
+			},
+			// 退出登录的回调
+			handleLogout(){
+				if(confirm('确定退出登录吗？')){
+					this.$store.dispatch('logout')
+				}
 			}
 		},
 		mounted(){

@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import routes from './routes'
+import {readToken,deleteToken} from '@/utils/auth'
+import store from '@/store'
+import {Message} from 'element-ui'
 
 Vue.use(VueRouter)
 
@@ -43,6 +46,46 @@ const router = new VueRouter({
 			return { x: 0, y: 0 }
 		}
   }
+})
+
+// 路由鉴权列表
+const authPath = ['/trade','/pay','/paysuccess','/center']
+
+//指定全局导航守卫
+router.beforeEach(async(to,from,next)=>{
+	//尝试读取本地token
+	const token = readToken()
+	//尝试读取vuex中的用户信息
+	const {info} = store.state.user
+	//根据token判断用户是否登录过
+	if(token){
+		//登录过，判断vuex中是否有用户信息
+		if(info.id){
+			//有用户信息，放行
+			next()
+		}else{
+			//无用户信息
+			try {
+				//联系服务员，去获取用户信息
+				await store.dispatch('getUserInfo')
+				//放行
+				next()
+			} catch (error) {
+				//删除本地token
+				deleteToken()
+				//放行到登录
+				next('/login')
+			}
+		}
+	}else{
+		//没登录,不能访问敏感路由
+		if(authPath.includes(to.path)){
+			Message.warning('请您先登录！')
+			next('/login?oldpath='+to.path)
+		}else{
+			next()
+		}
+	}
 })
 
 export default router
